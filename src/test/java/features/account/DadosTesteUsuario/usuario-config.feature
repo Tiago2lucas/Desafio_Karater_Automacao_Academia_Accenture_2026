@@ -2,7 +2,7 @@ Feature: Setup de Autenticação de Usuário
 
   Scenario: Criar usuário e gerar token de acesso
     * def Generator = Java.type('utils.DateGenerator')
-    * def payloadGeral = read('classpath:features/usuario/DadosTesteUsuario/cadastrar-usuário-dado-validos.json')
+    * def payloadGeral = read('DadosTesteUsuario/cadastrar-usuário-dado-validos.json')
     * set payloadGeral.userName = Generator.gerarNomeUsuarioValido()
     * set payloadGeral.password = Generator.gerarSenhaUsuarioValida()
 
