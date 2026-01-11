@@ -2,7 +2,7 @@ Feature: Gerenciamento do Acervo da Livraria
 
   Background:
     * url urlBaseBook
-    * def setupUsuario = callonce read('classpath:features/books/DadosTesteLivros/usuario-livro-config.feature')
+    * def setupUsuario = callonce read('DadosTesteLivros/usuario-livro-config.feature')
     * def token = setupUsuario.auth
     * def userId = setupUsuario.id
 
