@@ -12,7 +12,7 @@ Feature: Gerenciamento de Ciclo de Vida do Usuário
   @FluxoCompletoPositivo
   Scenario: Validação de Autorização, Consulta de Perfil e Exclusão
 
-    # Confirma se as credenciais geradas no setup estão autorizadas
+    # Confirma se as credenciais geradas no setup estão autorizadas (Post)
     Given path '/Authorized'
     And header Authorization = token
     And request { userName: '#(nomeUsuario)', password: '#(dados.payloadGeral.password)' }
@@ -21,7 +21,7 @@ Feature: Gerenciamento de Ciclo de Vida do Usuário
     And match response == 'true'
     * print 'Status de autorização confirmado para:', nomeUsuario
 
-    # Busca as informações detalhadas do perfil utilizando o ID e Token do setup
+    # Busca as informações detalhadas do perfil utilizando o ID e Token do setup (Get)
     Given path '/User', idUsuario
     And headers cabecalho
     When method get
@@ -30,7 +30,7 @@ Feature: Gerenciamento de Ciclo de Vida do Usuário
     And match response.username == nomeUsuario
     * print 'Dados do perfil recuperados com sucesso para o ID:', idUsuario
 
-    # Remove o usuário para garantir a limpeza do ambiente
+    # Remove o usuário para garantir a limpeza do ambiente (Delete)
     Given path '/User', idUsuario
     And headers cabecalho
     When method delete

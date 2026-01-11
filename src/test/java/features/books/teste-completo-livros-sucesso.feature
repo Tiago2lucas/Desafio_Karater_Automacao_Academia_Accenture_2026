@@ -2,7 +2,6 @@ Feature: Gerenciamento do Acervo da Livraria
 
   Background:
     * url urlBaseBook
-    # O callonce executa o setup uma única vez e reaproveita os dados
     * def setupUsuario = callonce read('classpath:features/books/DadosTesteLivros/usuario-livro-config.feature')
     * def token = setupUsuario.auth
     * def userId = setupUsuario.id
@@ -10,7 +9,7 @@ Feature: Gerenciamento do Acervo da Livraria
   @FluxoCompletoBookStore
   Scenario: Ciclo de vida dos livros: Listar, Adicionar, Atualizar e Remover
 
-    # Lista o catálogo para identificar os livros disponíveis
+    # Lista o catálogo para identificar os livros disponíveis (Get)
     Given path '/Books'
     When method get
     Then status 200
@@ -18,7 +17,7 @@ Feature: Gerenciamento do Acervo da Livraria
     * def isbnNovo = response.books[1].isbn
     * print 'Livros selecionados para o teste:', isbnOriginal, 'e', isbnNovo
 
-    # Adiciona o livro à coleção do usuário
+    # Adiciona o livro à coleção do usuário (Put)
     Given path '/Books'
     And header Authorization = token
     And request { userId: '#(userId)', collectionOfIsbns: [{ isbn: '#(isbnOriginal)' }] }
@@ -26,7 +25,7 @@ Feature: Gerenciamento do Acervo da Livraria
     Then status 201
     * print 'Livro adicionado com sucesso!'
 
-    # Consulta os detalhes do livro na coleção
+    # Consulta os detalhes do livro na coleção (Get)
     Given path '/Book'
     And param ISBN = isbnOriginal
     When method get
@@ -42,7 +41,7 @@ Feature: Gerenciamento do Acervo da Livraria
     Then status 200
     * print 'Livro atualizado na coleção com sucesso.'
 
-    # Remove o livro específico
+    # Remove o livro específico (Delete)
     Given path '/Book'
     And header Authorization = token
     And request { userId: '#(userId)', isbn: '#(isbnNovo)' }
@@ -50,7 +49,7 @@ Feature: Gerenciamento do Acervo da Livraria
     Then status 204
     * print 'Livro removido individualmente.'
 
-    # Esvazia toda a coleção do usuário
+    # Esvazia toda a coleção do usuário (Delete)
     Given path '/Books'
     And param UserId = userId
     And header Authorization = token
