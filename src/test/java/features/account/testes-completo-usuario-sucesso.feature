@@ -9,7 +9,7 @@ Feature: Gerenciamento de Ciclo de Vida do Usuário
     * def nomeUsuario = dados.nome
     * def cabecalho = { Authorization: '#(dados.auth)', Accept: 'application/json' }
 
-  @FluxoCompletoPositivo
+  @FluxoCompletoAccountPositivo
   Scenario: Validação de Autorização, Consulta de Perfil e Exclusão
 
     # Confirma se as credenciais geradas no setup estão autorizadas (Post)

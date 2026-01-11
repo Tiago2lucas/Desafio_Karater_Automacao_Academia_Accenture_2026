@@ -7,7 +7,7 @@ Feature: Testes de Negativo e Exceção no Ciclo de Vida do Usuário
     * def usuarioValido = setup.credenciais.userName
     * def Generator = Java.type('utils.DateGenerator')
 
-  @FluxoCompletoNegativo
+  @FluxoCompletoAccountNegativo
   Scenario Outline: Validação de falhas críticas - <cenario>
 
     Given path <rota>

@@ -6,7 +6,7 @@ Feature: Gerenciamento do Acervo da Livraria
     * def token = setupUsuario.auth
     * def userId = setupUsuario.id
 
-  @FluxoCompletoBookStore
+  @FluxoCompletoBookStorePositivo
   Scenario: Ciclo de vida dos livros: Listar, Adicionar, Atualizar e Remover
 
     # Lista o catálogo para identificar os livros disponíveis (Get)

@@ -8,7 +8,7 @@ Feature: Testes Negativos - Ciclo de Vida da BookStore
     * def isbnReal = setup.isbnAleatorio
     * def authHeader = { Authorization: '#(tokenValido)', Accept: 'application/json' }
 
-  @FluxoCompletoLivrosNegativo
+  @FluxoCompletoBookStoreNegativo
   Scenario Outline: Validação de falhas críticas - <cenario>
 
     Given path <rota>
