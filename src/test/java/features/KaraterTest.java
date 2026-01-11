@@ -9,7 +9,7 @@ class KaraterTest {
 
     @Test
     void testParallel() {
-        Results results = Runner.path("classpath:features").tags("@smoke")
+        Results results = Runner.path("classpath:features").tags("@GeraToken")
                 //.outputCucumberJson(true)
                 .parallel(5);
         assertEquals(0, results.getFailCount(), results.getErrorMessages());
