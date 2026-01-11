@@ -5,16 +5,25 @@ Feature: Configuração de Autenticação
     * def info = { userName: '#(Generator.gerarNomeUsuarioValido())', password: '#(Generator.gerarSenhaUsuarioValida())' }
 
     # Cria o usuário para os testes de livros
-    Given url urlBase
-    And path 'Account', 'v1', 'User'
+    Given url urlBaseUser
+    And path 'User'
     And request info
     When method post
     Then status 201
     * def id = response.userID
 
     # Gera o token de acesso
-    Given path 'Account', 'v1', 'GenerateToken'
+    Given path 'GenerateToken'
     And request info
     When method post
     Then status 200
     * def auth = 'Bearer ' + response.token
+
+    #  Busca o catálogo e seleciona um ISBN aleatório
+    Given url urlBaseBook
+    And path 'Books'
+    When method get
+    Then status 200
+
+
+    * def isbnAleatorio = Generator.getIsbnAleatorio(response.books)

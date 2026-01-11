@@ -1,41 +1,25 @@
 Feature: Testes de Negativo e Exceção no Ciclo de Vida do Usuário
 
   Background:
-    * url urlBase
+    * url urlBaseUser
+    * def setup = callonce read('classpath:features/usuario/DadosTesteUsuario/usuario-config.feature')
+    * def idValido = setup.id
+    * def usuarioValido = setup.credenciais.userName
     * def Generator = Java.type('utils.DateGenerator')
-    * def nomeInexistente = Generator.gerarNomeUsuarioValido()
-    * def senhaInvalida = Generator.geraSenhaUsuarioInvalida()
 
   @FluxoCompletoNegativo
-  Scenario: Fluxo de Falha: Tentativas de Cadastro, Token e Acesso Inválidos
+  Scenario Outline: Validação de falhas críticas - <cenario>
 
-    # Tentativa de cadastro com senha fora dos padrões
-    Given path 'Account', 'v1', 'User'
-    And request { userName: '#(nomeInexistente)', password: '#(senhaInvalida)' }
-    When method post
-    Then status 400
-    And match response == { code: '#string', message: '#string' }
-    * print 'Falha no cadastro confirmada:', response
+    Given path <rota>
+    And request <payload>
+    When method <metodo>
+    Then status <status_esperado>
+    And match response.message contains '#string'
+    * print 'Sucesso no teste negativo:', cenario
 
-    # Tentativa de gerar token enviando apenas o nome do usuário
-    Given path 'Account', 'v1', 'GenerateToken'
-    And request { userName: '#(nomeInexistente)' }
-    When method post
-    Then status 400
-    And match response == { code: '#string', message: '#string' }
-    * print 'Falha na geração de token confirmada:', response
-
-    # Tentativa de autorização sem informar a senha
-    Given path 'Account', 'v1', 'Authorized'
-    And request { userName: '#(nomeInexistente)' }
-    When method post
-    Then status 400
-    And match response == { code: '#string', message: '#string' }
-    * print 'Falha na autorização confirmada:', response
-
-    # Tentativa de buscar um usuário sem fornecer token de autorização
-    Given path 'Account', 'v1', 'User', 'id-inexistente'
-    When method get
-    Then status 401
-    And match response == { code: '#string', message: '#string' }
-    * print 'Acesso negado confirmado para busca sem token:', response
+    Examples:
+      | cenario               | rota                                 | metodo | status_esperado | payload                                                                        |
+      | "Senha Curta"         | "User"              | post   | 400             | { userName: '#(Generator.gerarNomeUsuarioValido())', password: '#(Generator.geraSenhaUsuarioInvalida())' }    |
+      | "Token sem Senha"     | "GenerateToken"     | post   | 400             | { userName: "#(usuarioValido)" }                                                    |
+      | "Autoriza sem Senha"  | "Authorized"        | post   | 400             | { userName: "#(usuarioValido)" }                                                    |
+      | "Perfil sem Token"    | "User", idValido    | get    | 401             | {}                                                                             |

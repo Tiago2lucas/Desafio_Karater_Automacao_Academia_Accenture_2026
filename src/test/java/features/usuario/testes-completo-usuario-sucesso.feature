@@ -1,54 +1,38 @@
 Feature: Gerenciamento de Ciclo de Vida do Usuário
 
   Background:
-    * url urlBase
-    * def Generator = Java.type('utils.DateGenerator')
-    * def payload = read('DadosTesteUsuario/cadastrar-usuário-dado-validos.json')
-    * set payload.userName = Generator.gerarNomeUsuarioValido()
-    * set payload.password = Generator.gerarSenhaUsuarioValida()
+    * url urlBaseUser
+
+    * def dados = callonce read('classpath:features/usuario/DadosTesteUsuario/usuario-config.feature')
+    * def idUsuario = dados.id
+    * def token = dados.auth
+    * def nomeUsuario = dados.nome
+    * def cabecalho = { Authorization: '#(dados.auth)', Accept: 'application/json' }
 
   @FluxoCompletoPositivo
-  Scenario: Cadastro, Autenticação, Consulta e Exclusão com Sucesso
+  Scenario: Validação de Autorização, Consulta de Perfil e Exclusão
 
-    # Realiza o cadastro de um novo usuário no sistema
-    Given path 'Account', 'v1', 'User'
-    And request payload
-    When method post
-    Then status 201
-    * def idUsuario = response.userID
-    * print 'Usuário criado com sucesso. ID:', idUsuario
-
-    # Gera o token de acesso necessário para as próximas operações
-    Given path 'Account', 'v1', 'GenerateToken'
-    And request { userName: '#(payload.userName)', password: '#(payload.password)' }
-    When method post
-    Then status 200
-    * def token = 'Bearer ' + response.token
-    * print 'Token de acesso gerado com sucesso:', response.token
-
-    # Confirma se as credenciais do usuário estão autorizadas
-    Given path 'Account', 'v1', 'Authorized'
+    # Confirma se as credenciais geradas no setup estão autorizadas
+    Given path '/Authorized'
     And header Authorization = token
-    And request { userName: '#(payload.userName)', password: '#(payload.password)' }
+    And request { userName: '#(nomeUsuario)', password: '#(dados.payloadGeral.password)' }
     When method post
     Then status 200
     And match response == 'true'
-    * print 'Status de autorização confirmado:', response
+    * print 'Status de autorização confirmado para:', nomeUsuario
 
-    # Busca as informações detalhadas do perfil utilizando o ID e Token
-    Given path 'Account', 'v1', 'User', idUsuario
-    And header Authorization = token
-    And header Accept = 'application/json'
+    # Busca as informações detalhadas do perfil utilizando o ID e Token do setup
+    Given path '/User', idUsuario
+    And headers cabecalho
     When method get
     Then status 200
     And match response.userId == idUsuario
-    And match response.username == payload.userName
-    * print 'Dados do perfil recuperados:', response
+    And match response.username == nomeUsuario
+    * print 'Dados do perfil recuperados com sucesso para o ID:', idUsuario
 
-    # Remove o usuário para garantir a limpeza dos dados de teste
-    Given path 'Account', 'v1', 'User', idUsuario
-    And header Authorization = token
-    And header Accept = 'application/json'
+    # Remove o usuário para garantir a limpeza do ambiente
+    Given path '/User', idUsuario
+    And headers cabecalho
     When method delete
     Then status 204
-    * print 'Usuário removido e ciclo finalizado.'
+    * print 'Usuário removido. Ciclo de vida encerrado com sucesso.'

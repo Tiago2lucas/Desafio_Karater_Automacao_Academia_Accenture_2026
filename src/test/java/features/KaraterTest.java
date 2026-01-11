@@ -9,10 +9,10 @@ class KaraterTest {
 
     @Test
     void testParallel() {
-        Results results = Runner.path("classpath:features").tags("@FluxoCompletoNegativo")
+        Results results = Runner.path("classpath:features").tags("@FluxoCompletoBookStore")
 
                 //.outputCucumberJson(true)
-                .parallel(6);
+                .parallel(2);
         assertEquals(0, results.getFailCount(), results.getErrorMessages());
     }
 
