@@ -2,7 +2,6 @@ Feature: Gerenciamento de Ciclo de Vida do Usuário
 
   Background:
     * url urlBaseUser
-
     * def dados = callonce read('DadosTesteUsuario/usuario-config.feature')
     * def idUsuario = dados.id
     * def token = dados.auth
@@ -14,7 +13,7 @@ Feature: Gerenciamento de Ciclo de Vida do Usuário
 
     # Confirma se as credenciais geradas no setup estão autorizadas (Post)
     Given path '/Authorized'
-    And header Authorization = token
+    And headers cabecalho
     And request { userName: '#(nomeUsuario)', password: '#(dados.payloadGeral.password)' }
     When method post
     Then status 200
