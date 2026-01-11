@@ -2,7 +2,7 @@ Feature: Testes Negativos - Ciclo de Vida da BookStore
 
   Background:
     * url urlBaseBook
-    * def setup = callonce read('classpath:features/books/DadosTesteLivros/usuario-livro-config.feature')
+    * def setup = callonce read('DadosTesteLivros/usuario-livro-config.feature')
     * def tokenValido = setup.auth
     * def userIdValido = setup.id
     * def isbnReal = setup.isbnAleatorio

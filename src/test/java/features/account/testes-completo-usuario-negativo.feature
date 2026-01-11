@@ -2,7 +2,7 @@ Feature: Testes de Negativo e Exceção no Ciclo de Vida do Usuário
 
   Background:
     * url urlBaseUser
-    * def setup = callonce read('classpath:features/usuario/DadosTesteUsuario/usuario-config.feature')
+    * def setup = callonce read('DadosTesteUsuario/usuario-config.feature')
     * def idValido = setup.id
     * def usuarioValido = setup.credenciais.userName
     * def Generator = Java.type('utils.DateGenerator')

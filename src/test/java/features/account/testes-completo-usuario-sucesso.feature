@@ -3,7 +3,7 @@ Feature: Gerenciamento de Ciclo de Vida do Usuário
   Background:
     * url urlBaseUser
 
-    * def dados = callonce read('classpath:features/usuario/DadosTesteUsuario/usuario-config.feature')
+    * def dados = callonce read('DadosTesteUsuario/usuario-config.feature')
     * def idUsuario = dados.id
     * def token = dados.auth
     * def nomeUsuario = dados.nome
