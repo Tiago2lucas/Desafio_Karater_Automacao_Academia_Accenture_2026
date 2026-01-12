@@ -102,7 +102,7 @@ BookStore:
 ### 🚀 Como Executar
 1. Clonar Repositório
 ````
-git clone https://github.com/Tiago2lucas/Desafio_Karate_Automacao_Academia_Accenture_2026.git
+git clone https://github.com/Tiago2lucas/Desafio_Karater_Automacao_Academia_Accenture_2026.git
 ````
 ### 🚀 2. Executar via Maven
 Navegue até a pasta raiz do projeto via terminal e execute o comando abaixo para rodar todos os testes e gerar os relatórios:
