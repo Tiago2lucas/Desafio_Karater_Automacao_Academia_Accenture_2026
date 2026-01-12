@@ -17,7 +17,7 @@ Feature: Gerenciamento do Acervo da Livraria
     * def isbnNovo = response.books[1].isbn
     * print 'Livros selecionados para o teste:', isbnOriginal, 'e', isbnNovo
 
-    # Adiciona o livro à coleção do usuário (Put)
+    # Adiciona o livro à coleção do usuário (Post)
     Given path '/Books'
     And header Authorization = token
     And request { userId: '#(userId)', collectionOfIsbns: [{ isbn: '#(isbnOriginal)' }] }

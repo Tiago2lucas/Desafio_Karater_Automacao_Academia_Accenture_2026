@@ -5,12 +5,12 @@ import com.intuit.karate.Runner;
 import static org.junit.jupiter.api.Assertions.*;
         import org.junit.jupiter.api.Test;
 
-class KaraterTest {
+class KarateTest {
 
     @Test
     void testParallel() {
         Results results = Runner.path("classpath:features")
-                .tags("@FluxoCompletoAccountPositivo")
+                .tags("@FluxoCompletoBookStorePositivo")
 
                 //.outputCucumberJson(true)
                 .parallel(2);

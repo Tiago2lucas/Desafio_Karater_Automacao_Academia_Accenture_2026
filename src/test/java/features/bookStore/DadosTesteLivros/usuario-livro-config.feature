@@ -19,11 +19,10 @@ Feature: Configuração de Autenticação
     Then status 200
     * def auth = 'Bearer ' + response.token
 
-    #  Busca o catálogo e seleciona um ISBN aleatório
+    #  Busca o catálogo de Livros
     Given url urlBaseBook
     And path 'Books'
     When method get
     Then status 200
-
 
     * def isbnAleatorio = Generator.getIsbnAleatorio(response.books)

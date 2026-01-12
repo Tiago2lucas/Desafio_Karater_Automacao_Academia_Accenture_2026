@@ -1,8 +1,7 @@
 function fn() {
   var env = karate.env; // get system property 'karate.env'
   karate.log('karate.env system property was:', env);
-  karate.configure('connectTimeout', 6000);
-  karate.configure('readTimeout', 6000);
+
   if (!env) {
     env = 'dev';
   }
